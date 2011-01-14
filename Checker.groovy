@@ -4,15 +4,17 @@ import org.htmlparser.*
 import org.htmlparser.util.*
 import org.htmlparser.filters.*
 import org.htmlparser.tags.*
+import FileChecked;
+
 
 public class Checker{
 
 
     private String url;
-    private Integer size;
+    private double size;
+    public  ConfigObject config;
 
     private float errorPercent=0.05;
-    public  ConfigObject config;
 
     public setErrorPercent(float percent){
 	errorPercent=percent;
@@ -40,17 +42,6 @@ public class Checker{
     	size=_size;
     }
 
-    public static String roundMe(long bytesNumber){
-
-        def unites=["b","K","M","G","T"]
-        def iter=0;
-        while (bytesNumber > 1024){
-            bytesNumber= Math.round(bytesNumber/1024)
-            iter++;
-        }
-        return bytesNumber.toString() + unites[iter];
-    }
-
     public Object getConfig(){
 	return config;
     }
@@ -64,19 +55,20 @@ public class Checker{
 		checker.setUrl(e.getValue().get('url'));
 		checker.setSize(e.getValue().get('size'));
 
-		int res=0;
-		switch (res=checker.fileCheck()){
-			case FILE_NOT_FOUND_OR_EMPTY :
+		FileChecked fileChecked=checker.fileCheck();
+		int status=fileChecked.getError();
+		switch(status){
+			case FileChecked.FILE_NOT_FOUND_OR_EMPTY :
 	            		System.out.println("File Not Found or empty : "+checker.getUrl());
 				break;
-			case FILE_SIZE_EXPECTED_INCORRECT :
+			case FileChecked.FILE_SIZE_EXPECTED_INCORRECT :
 	            		System.out.println("Expected File Size is invalid : "+checker.getUrl());
 				break;
-			case FILE_SIZE_VALID :
+			case FileChecked.FILE_SIZE_VALID :
 	            		System.out.println("CONFORME : "+checker.getUrl());
 				break;
 			default :
-				System.out.println("FILE SIZE NOT CONFORME, error=" + res +"% : "+checker.getUrl() );
+				System.out.println("FILE SIZE NOT CONFORME, error=" + fileChecked.getErrorPercent() +"% : "+checker.getUrl() );
 		}
     	}
     }
@@ -91,22 +83,8 @@ public class Checker{
 	new File("SizeConfig.groovy").withWriter { writer ->config.writeTo(writer)}
     }
 
-    public void diskCheck(){
-        //File f = new File("c:/");
-        File f = new File("F:/");
-        // prints the volume size in bytes.
-        System.out.println("Total Space="+Checker.roundMe(f.getTotalSpace()));
-        // prints the total free bytes for the volume in bytes.
-        System.out.println("Free Space="+Checker.roundMe(f.getFreeSpace()));
-        // prints an accurate estimate of the total free (and available) bytes
-        // on the volume. This method may return the same result as 'getFreeSpace()' on
-        // some platforms.
-        
-        System.out.println("Usable Space="+Checker.roundMe(f.getUsableSpace()));
-    }
 
-
-    private int fileCheck(){
+    private FileChecked fileCheck(){
 
 	if(url.contains("*")){
 		url=fileLastMatch(url);
@@ -159,7 +137,7 @@ public class Checker{
 	    }
     }
 
-    public int fileHttpCheck( httpurl, fileLengthExpected ){
+    public FileChecked fileHttpCheck( String httpurl, double fileLengthExpected ){
 
 	if(fileLengthExpected<1){
 		return FILE_SIZE_EXPECTED_INCORRECT;
@@ -177,11 +155,12 @@ public class Checker{
  */
 	
  	System.out.println("size="+fileLength);
-	return fileIntCheck(fileLength, fileLengthExpected);
+	FileChecked toReturn = new FileChecked((double)fileLength,fileLengthExpected, 0.05)
+	return toReturn;
 
     }
 
-    public int fileFsCheck(String path, fileLengthExpected ){
+    public FileChecked fileFsCheck(String path, double fileLengthExpected ){
 
 	if(fileLengthExpected<1){
 		return FILE_SIZE_EXPECTED_INCORRECT 
@@ -191,34 +170,10 @@ public class Checker{
 /*	Date lastModified = new Date(file.lastModified());
  *	System.out.println(lastModified);
  */	
-	
-
-	return fileIntCheck(fileLength, fileLengthExpected);
+	float p=0.05	
+	FileChecked toReturn = new FileChecked( fileLength, fileLengthExpected, p);
+	return toReturn;
 
 	}
-
-
-
-   private int fileIntCheck(long fileLength, long fileLengthExpected){
-
-        if (fileLength <= 0){
-            return FILE_NOT_FOUND_OR_EMPTY;
-        }
-	System.out.println((fileLengthExpected * (1-errorPercent)) +">="+ fileLength +"="+ ((fileLengthExpected * (1-errorPercent)) >= fileLength));
-	System.out.println(fileLength +"<="+ (fileLengthExpected * (1+errorPercent)) +"="+ (fileLength <= (fileLengthExpected * (1+errorPercent))));
-	
-	if ( ((fileLengthExpected * (1-errorPercent)) >= fileLength  ) && ( fileLength <= (fileLengthExpected * (1+errorPercent))) ){
-		System.out.println("VALID");
-	   return FILE_SIZE_VALID;		
-	}
-
-   	double error= Math.round(fileLengthExpected/fileLength*100);
-	System.out.println("ERROR="+ error);
-    	return error;  
-
-    }
-
-
-
 
 }

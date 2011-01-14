@@ -6,7 +6,7 @@ public class FileChecked {
     	public static FILE_SIZE_VALID = -3;
     	public static FILE_SIZE_EXPECTED_INCORRECT = -2;
 
-	public static int ERRORPERCENTDEFAULT = 0.05;
+	public static float ERRORPERCENTDEFAULT = 0.05;
 
 	private double errorPercent = 0;
 	private double error = 0;
@@ -23,7 +23,12 @@ public class FileChecked {
 		return error;
 	}
 
-	public FileChecked(double fileLength, double fileLengthExpected , int errorPercent){
+	//public FileChecked(double fileLength, double fileLengthExpected ){
+	//	super(fileLength, fileLength, ERRORPERCENTDEFAULT);
+//
+//	}
+	
+	public FileChecked(double fileLength, double fileLengthExpected , float errorPercent){
 		if (fileLength <= 0){
 		    errorStatus= FILE_NOT_FOUND_OR_EMPTY;
 		}
