@@ -31,14 +31,12 @@ public class FileChecked {
 	}
 	
 	public FileChecked(double fileLength, double fileLengthExpected , float errorPercent){
-		System.out.println("fileLength "+fileLength +"! fileLength="+fileLength);
 		if (fileLength <= 0){
 		    errorStatus= FILE_NOT_FOUND_OR_EMPTY;
 		}
 		
 		if ( ((fileLengthExpected * (1-errorPercent)) >= fileLength  ) && ( fileLength <= (fileLengthExpected * (1+errorPercent))) ){
 		   //return FILE_SIZE_VALID;
-		   System.out.println("OK");
 		   errorStatus=FILE_SIZE_VALID;		
 		}
 
