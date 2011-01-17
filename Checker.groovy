@@ -14,7 +14,7 @@ public class Checker{
     private double size;
     public  ConfigObject config;
 
-    private float errorPercent=0.05;
+    //private float errorPercent=0.05;
 
     public setErrorPercent(float percent){
 	errorPercent=percent;
@@ -56,7 +56,7 @@ public class Checker{
 		checker.setSize(e.getValue().get('size'));
 
 		FileChecked fileChecked=checker.fileCheck();
-		int status=fileChecked.getError();
+		int status=fileChecked.getErrorStatus();
 		switch(status){
 			case FileChecked.FILE_NOT_FOUND_OR_EMPTY :
 	            		System.out.println("File Not Found or empty : "+checker.getUrl());
@@ -76,6 +76,7 @@ public class Checker{
     private void load(){
 
 	config = new ConfigSlurper().parse(new File('SizeConfig.groovy').toURL())
+	//System.out.println("Config :"+config);
     }
 
     private void save(){
@@ -114,8 +115,8 @@ public class Checker{
 		/*for (NodeIterator e = parser.elements (); e.hasMoreNodes (); )
 			e.nextNode ().collectInto (list, filter);*/
 		List<String> files = Arrays.asList(list);
-		System.out.println(files);
-		System.out.println("was prefix "+ prefix);
+		//System.out.println(files);
+		//System.out.println("was prefix "+ prefix);
 
 	    }else{
 	    	File directory= new File (url.substring(0,url.lastIndexOf('/')));
@@ -154,8 +155,8 @@ public class Checker{
  *	System.out.println(date);
  */
 	
- 	System.out.println("size="+fileLength);
-	FileChecked toReturn = new FileChecked((double)fileLength,fileLengthExpected, 0.05)
+ 	//System.out.println("size="+fileLength);
+	FileChecked toReturn = new FileChecked((double)fileLength,fileLengthExpected)
 	return toReturn;
 
     }
@@ -170,8 +171,7 @@ public class Checker{
 /*	Date lastModified = new Date(file.lastModified());
  *	System.out.println(lastModified);
  */	
-	float p=0.05	
-	FileChecked toReturn = new FileChecked( fileLength, fileLengthExpected, p);
+	FileChecked toReturn = new FileChecked( fileLength, fileLengthExpected);
 	return toReturn;
 
 	}
