@@ -31,7 +31,6 @@ public class FileChecked {
 	}
 	
 	public FileChecked(double fileLength, double fileLengthExpected , float errorPercent){
-	System.out.println(fileLength+","+fileLengthExpected+","+errorPercent);
 		if (fileLength <= 0){
 		    errorStatus= FILE_NOT_FOUND_OR_EMPTY;
 		}
