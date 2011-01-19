@@ -6,7 +6,7 @@ public class FileChecked {
     	public static FILE_SIZE_VALID = -3;
     	public static FILE_SIZE_EXPECTED_INCORRECT = -2;
 
-	public static float ERRORPERCENTDEFAULT = 0.05;
+	public static float ERROR_PERCENT_DEFAULT = 0.05;
 
 	private double errorPercent = 0;
 	private double errorDiff = 0;
@@ -26,19 +26,24 @@ public class FileChecked {
 	}
 
 	public FileChecked(double fileLength, double fileLengthExpected ){
-		this(fileLength, fileLength, ERRORPERCENTDEFAULT);
+		this(fileLength, fileLength, ERROR_PERCENT_DEFAULT);
 
 	}
 	
 	public FileChecked(double fileLength, double fileLengthExpected , float errorPercent){
+		if(fileLengthExpected<1){
+			return FILE_SIZE_EXPECTED_INCORRECT;
+		}
 		if (fileLength <= 0){
 		    errorStatus= FILE_NOT_FOUND_OR_EMPTY;
-		}
-		if (fileLengthExpected==fileLength)
+		}else{
+			if (fileLengthExpected==fileLength){
+			   errorStatus=FILE_SIZE_VALID;	
+			}else{	
+				if ( ((fileLengthExpected * (1-errorPercent)) <= fileLength  ) && ( fileLength >= (fileLengthExpected * (1+errorPercent))) ){
 		   errorStatus=FILE_SIZE_VALID;		
-			
-		if ( ((fileLengthExpected * (1-errorPercent)) <= fileLength  ) && ( fileLength >= (fileLengthExpected * (1+errorPercent))) ){
-		   errorStatus=FILE_SIZE_VALID;		
+				}
+			}
 		}
 
 		errorDiff=Math.abs(fileLength-fileLengthExpected);

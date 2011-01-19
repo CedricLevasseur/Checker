@@ -28,10 +28,6 @@ public class Checker{
  	load();	
     }
     
-    public static FILE_NOT_FOUND_OR_EMPTY = -1;
-    public static FILE_SIZE_VALID = -3;
-    public static FILE_SIZE_EXPECTED_INCORRECT = -2;
-
     public void setUrl(String _url){
     	url=_url;
     }
@@ -101,7 +97,12 @@ public class Checker{
 
     private String fileLastMatch(String url){
 
+	if(!url.contains("*")){
+		return url;
+	}		
+	
             String prefix=url.substring(url.lastIndexOf('/')+1,url.lastIndexOf('*'));
+		System.out.println(prefix)
 	    if(url.startsWith("http")){
 	    	String directory= url.substring(0,url.lastIndexOf('/'));
 		Parser parser = new Parser(directory);
@@ -133,16 +134,13 @@ public class Checker{
 			return files.get(0);//[files.length-1];
 		}
 		else{
-			return "";
+			return url;
 		}
 	    }
     }
 
     public FileChecked fileHttpCheck( String httpurl, double fileLengthExpected ){
 
-	if(fileLengthExpected<1){
-		return FILE_SIZE_EXPECTED_INCORRECT;
-	}
 
         URL url                  = new URL(httpurl);
         URLConnection connection = url.openConnection();
@@ -163,9 +161,6 @@ public class Checker{
 
     public FileChecked fileFsCheck(String path, double fileLengthExpected ){
 
-	if(fileLengthExpected<1){
-		return FILE_SIZE_EXPECTED_INCORRECT 
-	}
 	File file = new File(path);
         long fileLength = file.length();
 /*	Date lastModified = new Date(file.lastModified());
