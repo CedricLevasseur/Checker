@@ -31,23 +31,29 @@ public class FileChecked {
 	}
 	
 	public FileChecked(double fileLength, double fileLengthExpected , float errorPercent){
+
+		errorStatus=check(fileLength,fileLengthExpected);
+		errorDiff=Math.abs(fileLength-fileLengthExpected);
+		errorPercent=Math.round(errorDiff/fileLengthExpected * 100);
+
+		}
+
+	public int check(double fileLength,double fileLengthExpected){
 		if(fileLengthExpected<1){
 			return FILE_SIZE_EXPECTED_INCORRECT;
 		}
 		if (fileLength <= 0){
-		    errorStatus= FILE_NOT_FOUND_OR_EMPTY;
-		}else{
-			if (fileLengthExpected==fileLength){
-			   errorStatus=FILE_SIZE_VALID;	
-			}else{	
-				if ( ((fileLengthExpected * (1-errorPercent)) <= fileLength  ) && ( fileLength >= (fileLengthExpected * (1+errorPercent))) ){
-		   errorStatus=FILE_SIZE_VALID;		
-				}
+		    return FILE_NOT_FOUND_OR_EMPTY;
+		}
+		if (fileLengthExpected==fileLength){
+			return FILE_SIZE_VALID;	
 			}
+		if ( ((fileLengthExpected * (1-errorPercent)) <= fileLength  ) && ( fileLength >= (fileLengthExpected * (1+errorPercent))) ){
+		   return FILE_SIZE_VALID;		
+				
+			
 		}
 
-		errorDiff=Math.abs(fileLength-fileLengthExpected);
-		errorPercent=Math.round(errorDiff/fileLengthExpected * 100);
 	}	
 			
 	public String toString(){
