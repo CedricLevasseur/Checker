@@ -13,5 +13,5 @@ public class SizeFormatter{
         }
         return bytesNumber.toString() + unites[iter];
     }
-    }
+}
 
