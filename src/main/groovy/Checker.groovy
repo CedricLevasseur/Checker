@@ -71,7 +71,7 @@ public class Checker{
 
     private void load(){
 
-	config = new ConfigSlurper().parse(new File('SizeConfig.groovy').toURL())
+	config = new ConfigSlurper().parse(new File('../resources/SizeConfig.groovy').toURL())
 	//System.out.println("Config :"+config);
     }
 

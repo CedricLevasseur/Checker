@@ -1,1 +1,10 @@
-Check will help you to check file's size exposed on the network
+"Checker" will help you to check file's size exposed on the network
+- files can be checked by a filesystem path or an url over http
+- a 5% delta in size is permitted
+- the config file is SizeConfig.groovy
+- work under linux or windows (or mac)
+pre-requis
+Java
+Groovy
+
+ 
