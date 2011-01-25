@@ -25,11 +25,15 @@ public class FileToCheck{
 	}
 	public void setDelta(String _deltaStr){
 		_deltaStr=_deltaStr.trim()
-		if(_deltaStr.charAt(_deltaStr.size()-1)=='%'){
+		char last=_deltaStr.charAt(_deltaStr.size()-1)
+		if(last=='%'){
 			_deltaStr="0."+_deltaStr.substring(0,_deltaStr.size()-2)	
+			delta=Double.parseDouble(_deltaStr)
 		}
-		delta=Double.parseDouble(_deltaStr)
-		//delta=0.05//_delta
+		if(last in SizeFormatter.unites){
+			//implement here the delta in size, not percent
+			//delta=SizeFormatter.convertInBytes(_deltaStr)
+		}
 	}
 	
 	public double getDelta(){

@@ -3,8 +3,9 @@ import SizeFormatter;
 
 public class SizeFormatterTest extends GroovyTestCase{
 
+      public static char[] unites=['b','K','M','G','T']
+
 	public void testSizeFormatter(){
-        	char[] unites=["b","K","M","G","T"]
 		long dataSize=0;
 		String f=SizeFormatter.format(dataSize);
 		assert f.charAt(f.size()-1) == 'b';
@@ -17,5 +18,11 @@ public class SizeFormatterTest extends GroovyTestCase{
 		}
 	}
 
+	public void testConvertToBytes(){
+		long dataSize=0;
+		String f="768M";
+		float result=((768*1024)*1024)
+		assert SizeFormatter.convertToBytes(f)== result
+	}
 	
 }
