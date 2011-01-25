@@ -12,8 +12,9 @@ public class Checker{
 
     private String url;
     private double size;
+    private double delta;
     public  ConfigObject config;
-
+    public List<FileToCheck> filesToCheck = new ArrayList<FileToCheck>() 
     //private float errorPercent=0.05;
 
     public setErrorPercent(float percent){
@@ -34,7 +35,7 @@ public class Checker{
     public String getUrl(){
     	return url;
     }
-    public void setSize(Integer _size){
+    public void setSize(Double _size){
     	size=_size;
     }
 
@@ -42,14 +43,28 @@ public class Checker{
 	return config;
     }
 
+    public void setDelta(Double _delta){
+    	delta=_delta;
+    }
+
+    public double getDelta(){
+	return delta;
+    }
+
 
     public static void main(String[] args){
 
         def checker = new Checker();
 
-	for (e in checker.config){
-		checker.setUrl(e.getValue().get('url'));
-		checker.setSize(e.getValue().get('size'));
+	//HERE
+	checker.filesToCheck.each() { fileToCheck ->  
+	//for (e in checker.config){
+
+		checker.setUrl(fileToCheck.getUrl())
+		//checker.setUrl(e.getValue().get('url'));
+		checker.setSize(fileToCheck.getSize())
+		checker.setDelta(fileToCheck.getDelta())
+		//checker.setSize(e.getValue().get('size'));
 
 		FileChecked fileChecked=checker.fileCheck();
 		int status=fileChecked.getErrorStatus();
@@ -69,18 +84,33 @@ public class Checker{
     	}
     }
 
-    private void load(){
+    private void load1(){
 
 	config = new ConfigSlurper().parse(new File('../resources/SizeConfig.groovy').toURL())
 	//System.out.println("Config :"+config);
     }
 
-    private void save(){
+    private void save1(){
 
 	new File("SizeConfig.groovy").withWriter { writer ->config.writeTo(writer)}
     }
 
 
+	
+    private load(){
+	
+	def listOfFiles  = new File('src/main/resources/checker.conf')
+    	listOfFiles.eachLine { String file ->
+		String[] args = file.split(" ")
+		FileToCheck target = new FileToCheck();
+		target.setUrl(args[0])
+		target.setSize(new Double(args[1]))
+		if(args.size()>2)
+			target.setDelta(args[2])
+		filesToCheck.add(target);
+        }
+    }
+    	
     private FileChecked fileCheck(){
 
 	if(url.contains("*")){
