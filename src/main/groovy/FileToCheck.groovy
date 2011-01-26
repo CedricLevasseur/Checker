@@ -12,8 +12,8 @@ public class FileToCheck{
 		return url
 	}
 
-	public void setSize(double _size){
-		url=url
+	public void setSize(String _size){
+		size=_size
 	}
 	
 	public double getSize(){
@@ -28,7 +28,8 @@ public class FileToCheck{
 		char last=_deltaStr.charAt(_deltaStr.size()-1)
 		if(last=='%'){
 			_deltaStr="0."+_deltaStr.substring(0,_deltaStr.size()-2)	
-			delta=Double.parseDouble(_deltaStr)
+			double deltaPercent=Double.parseDouble(_deltaStr)
+			delta=size*(1-deltaPercent)
 		}
 		if(last in SizeFormatter.unites){
 			//implement here the delta in size, not percent
