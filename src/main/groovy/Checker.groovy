@@ -15,7 +15,6 @@ public class Checker{
     private double delta;
     public  ConfigObject config;
     public List<FileToCheck> filesToCheck = new ArrayList<FileToCheck>() 
-    //private float errorPercent=0.05;
 
     public setErrorPercent(float percent){
 	errorPercent=percent;
@@ -56,15 +55,11 @@ public class Checker{
 
         def checker = new Checker();
 
-	//HERE
 	checker.filesToCheck.each() { fileToCheck ->  
-	//for (e in checker.config){
 
 		checker.setUrl(fileToCheck.getUrl())
-		//checker.setUrl(e.getValue().get('url'));
 		checker.setSize(fileToCheck.getSize())
 		checker.setDelta(fileToCheck.getDelta())
-		//checker.setSize(e.getValue().get('size'));
 
 		FileChecked fileChecked=checker.fileCheck();
 		int status=fileChecked.getErrorStatus();
@@ -84,19 +79,6 @@ public class Checker{
     	}
     }
 
-    private void load1(){
-
-	config = new ConfigSlurper().parse(new File('../resources/SizeConfig.groovy').toURL())
-	//System.out.println("Config :"+config);
-    }
-
-    private void save1(){
-
-	new File("SizeConfig.groovy").withWriter { writer ->config.writeTo(writer)}
-    }
-
-
-	
     private load(){
 	
 	def listOfFiles  = new File('src/main/resources/checker.conf')
@@ -104,7 +86,7 @@ public class Checker{
 		String[] args = file.split(" ")
 		FileToCheck target = new FileToCheck();
 		target.setUrl(args[0])
-		target.setSize(new Double(args[1]))
+		target.setSize(args[1])
 		if(args.size()>2)
 			target.setDelta(args[2])
 		filesToCheck.add(target);
