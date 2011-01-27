@@ -3,7 +3,7 @@
 
 public class SizeFormatter{
 
-    public static char[] unites=['b','K','M','G','T']
+    public static char[] unites=['B','K','M','G','T']
 
     public static String format(long bytesNumber){
 
@@ -31,7 +31,7 @@ public class SizeFormatter{
 	 }
 
 	if(toReturn==null)
-		toReturn=data
+		toReturn=Double.parseDouble(data)
 	return toReturn;
 	
 	

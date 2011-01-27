@@ -15,7 +15,7 @@ public class FileToCheck{
 	public void setSize(String _size){
 		size=SizeFormatter.convertToBytes(_size)
 	}
-	public void setSize(String _size){
+	public void setSize(double _size){
 		size=_size
 	}
 
@@ -27,9 +27,9 @@ public class FileToCheck{
 		delta=_delta
 	}
 	public void setDelta(String _deltaStr){
-		char last=_deltaStr.charAt(_deltaStr.size()-1)
+		char last=_deltaStr.charAt(_deltaStr.length()-1)
 		if(last=='%'){
-			_deltaStr="0."+_deltaStr.substring(0,_deltaStr.size()-2)	
+			_deltaStr="0."+_deltaStr.substring(0,_deltaStr.length()-2)	
 			double deltaPercent=Double.parseDouble(_deltaStr)
 			//hum, be aware to set size before deltapercent 
 			delta=size*(1-deltaPercent)
@@ -37,7 +37,7 @@ public class FileToCheck{
 		}else{
 			if(last in SizeFormatter.unites){
 				//implement here the delta in size, not percent
-				delta=SizeFormatter.convertInBytes(_deltaStr)
+				delta=SizeFormatter.convertToBytes(_deltaStr)
 			}else{
 				delta=Double.parseDouble(_deltaStr)
 			}

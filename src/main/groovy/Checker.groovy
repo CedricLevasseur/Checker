@@ -15,6 +15,8 @@ public class Checker{
     private double delta;
     public  ConfigObject config;
     public List<FileToCheck> filesToCheck = new ArrayList<FileToCheck>() 
+			
+    private static String DEFAULT_PERCENT="5%";
 
     public setErrorPercent(float percent){
 	errorPercent=percent;
@@ -60,7 +62,7 @@ public class Checker{
 		checker.setUrl(fileToCheck.getUrl())
 		checker.setSize(fileToCheck.getSize())
 		checker.setDelta(fileToCheck.getDelta())
-
+		
 		FileChecked fileChecked=checker.fileCheck();
 		int status=fileChecked.getErrorStatus();
 		switch(status){
@@ -87,8 +89,11 @@ public class Checker{
 		FileToCheck target = new FileToCheck();
 		target.setUrl(args[0])
 		target.setSize(args[1])
-		if(args.size()>2)
+		if(args.size()>2){
 			target.setDelta(args[2])
+		}else{
+			target.setDelta(DEFAULT_PERCENT);
+		}
 		filesToCheck.add(target);
         }
     }
@@ -100,9 +105,9 @@ public class Checker{
 	}
 	if(url!=null && url.size()>0 ) {		
 		if(url.startsWith("http")){
-			return fileHttpCheck(url,size);
+			return fileHttpCheck(url,size,delta);
 		}else{
-			return fileFsCheck(url,size);
+			return fileFsCheck(url,size,delta);
 		}
 	}
     }
@@ -114,7 +119,6 @@ public class Checker{
 	}		
 	
             String prefix=url.substring(url.lastIndexOf('/')+1,url.lastIndexOf('*'));
-		System.out.println(prefix)
 	    if(url.startsWith("http")){
 	    	String directory= url.substring(0,url.lastIndexOf('/'));
 		Parser parser = new Parser(directory);
@@ -151,7 +155,7 @@ public class Checker{
 	    }
     }
 
-    public FileChecked fileHttpCheck( String httpurl, double fileLengthExpected ){
+    public FileChecked fileHttpCheck( String httpurl, double fileLengthExpected,double delta ){
 
 
         URL url                  = new URL(httpurl);
@@ -165,20 +169,19 @@ public class Checker{
  *	System.out.println(date);
  */
 	
- 	//System.out.println("size="+fileLength);
-	FileChecked toReturn = new FileChecked((double)fileLength,fileLengthExpected)
+	FileChecked toReturn = new FileChecked((double)fileLength,fileLengthExpected, delta)
 	return toReturn;
 
     }
 
-    public FileChecked fileFsCheck(String path, double fileLengthExpected ){
+    public FileChecked fileFsCheck(String path, double fileLengthExpected, Double delta ){
 
 	File file = new File(path);
         long fileLength = file.length();
 /*	Date lastModified = new Date(file.lastModified());
  *	System.out.println(lastModified);
  */	
-	FileChecked toReturn = new FileChecked( fileLength, fileLengthExpected);
+	FileChecked toReturn = new FileChecked( (Double)fileLength, fileLengthExpected, delta);
 	return toReturn;
 
 	}
