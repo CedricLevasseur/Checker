@@ -4,6 +4,7 @@ public class FileChecked {
     
 	public static FILE_NOT_FOUND_OR_EMPTY = -1;
     	public static FILE_SIZE_VALID = -3;
+    	public static FILE_SIZE_INVALID = -3;
     	public static FILE_SIZE_EXPECTED_INCORRECT = -2;
 
 	private double delta = 0;
@@ -51,9 +52,10 @@ public class FileChecked {
 		   return FILE_SIZE_VALID;		
 		}*/
 		
-		if(Math.abs(fileLengthExpected-fileLength)<delta){
+		if((Math.abs(fileLengthExpected-fileLength))<delta){
 			return FILE_SIZE_VALID
-		} 	
+		}
+		return FILE_SIZE_INVALID 	
 
 	}	
 			

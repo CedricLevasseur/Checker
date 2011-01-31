@@ -72,6 +72,10 @@ public class Checker{
 			case FileChecked.FILE_SIZE_EXPECTED_INCORRECT :
 	            		System.out.println("Expected File Size is invalid : "+checker.getUrl());
 				break;
+			case FileChecked.FILE_SIZE_INVALID :
+	            		System.out.println("NOT CONFORME : "+checker.getUrl());
+				break;
+
 			case FileChecked.FILE_SIZE_VALID :
 	            		System.out.println("CONFORME : "+checker.getUrl());
 				break;

@@ -27,19 +27,21 @@ public class FileToCheck{
 		delta=_delta
 	}
 	public void setDelta(String _deltaStr){
-		char last=_deltaStr.charAt(_deltaStr.length()-1)
-		if(last=='%'){
-			_deltaStr="0."+_deltaStr.substring(0,_deltaStr.length()-2)	
-			double deltaPercent=Double.parseDouble(_deltaStr)
-			//hum, be aware to set size before deltapercent 
-			delta=size*(1-deltaPercent)
+		if(_deltaStr!=null && _deltaStr.trim().length()>0){
+			char last=_deltaStr.charAt(_deltaStr.length()-1)
+			if(last=='%'){
+				_deltaStr="0."+_deltaStr.substring(0,_deltaStr.length()-2)	
+				double deltaPercent=Double.parseDouble(_deltaStr)
+				//hum, be aware to set size before deltapercent 
+				delta=size*(1-deltaPercent)
 
-		}else{
-			if(last in SizeFormatter.unites){
-				//implement here the delta in size, not percent
-				delta=SizeFormatter.convertToBytes(_deltaStr)
 			}else{
-				delta=Double.parseDouble(_deltaStr)
+				if(last in SizeFormatter.unites){
+					//implement here the delta in size, not percent
+					delta=SizeFormatter.convertToBytes(_deltaStr)
+				}else{
+					delta=Double.parseDouble(_deltaStr)
+				}
 			}
 		}
 	}
