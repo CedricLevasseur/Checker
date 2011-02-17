@@ -13,8 +13,12 @@ public class Checker{
     private String url;
     private double size;
     private double delta;
-    public  ConfigObject config;
+   // public  ConfigObject config;
     public List<FileToCheck> filesToCheck = new ArrayList<FileToCheck>() 
+
+    private String DEFAULT_CONF_DIR = "src/main/ressources/"
+    
+    private String DEFAULT_CONF_FILE = "checker.conf"
 			
     private static String DEFAULT_PERCENT="5%";
 
@@ -26,8 +30,8 @@ public class Checker{
 	return errorPercent;
     }	
 
-    public Checker(){
- 	load();	
+    public Checker(String[] args){
+ 	load(manageConfFile(args));	
     }
     
     public void setUrl(String _url){
@@ -55,7 +59,7 @@ public class Checker{
 
     public static void main(String[] args){
 
-        def checker = new Checker();
+        def checker = new Checker(args);
 
 	checker.filesToCheck.each() { fileToCheck ->  
 
@@ -85,20 +89,52 @@ public class Checker{
     	}
     }
 
-    private load(){
-	
-	def listOfFiles  = new File('src/main/resources/checker.conf')
-    	listOfFiles.eachLine { String file ->
-		String[] args = file.split(" ")
-		FileToCheck target = new FileToCheck();
-		target.setUrl(args[0])
-		target.setSize(args[1])
-		if(args.size()>2){
-			target.setDelta(args[2])
-		}else{
-			target.setDelta(DEFAULT_PERCENT);
+    private List<String> manageConfFile(String[] files){
+	List<String> toReturn= new ArrayList<String>()
+	File f
+	if(files!=null ){
+		files.each(){
+			f=new File(it)
+			if(f.exists()){
+				toReturn.add(it)
+			}else{
+			    f=new File(DEFAULT_CONF_DIR+it)
+			    if(f.exists()){
+				toReturn.add(DEFAULT_CONF_DIR+it)
+			    }
+			}
 		}
-		filesToCheck.add(target);
+		if(toReturn.size()==0){
+			f=new File(DEFAULT_CONF_DIR+DEFAULT_CONF_FILE)
+			println f
+			if(f.exists()){
+				toReturn.add(""+DEFAULT_CONF_DIR+DEFAULT_CONF_FILE)
+			}else{
+				println("No files to check, please provide a checker.conf")
+				System.exit(1);
+			}
+		}
+	}
+	return toReturn
+    }
+
+    private load(List<String> listOfFiles){
+	listOfFiles.each(){
+	    File conf= new File(it)
+    	    conf.eachLine() { String file ->
+		if(!file.startsWith("#")){
+			String[] args = file.split(" ")
+			FileToCheck target = new FileToCheck();
+			target.setUrl(args[0])
+			target.setSize(args[1])
+			if(args.size()>2){
+				target.setDelta(args[2])
+			}else{
+				target.setDelta(DEFAULT_PERCENT);
+			}
+			filesToCheck.add(target);
+		}
+	    }
         }
     }
     	
