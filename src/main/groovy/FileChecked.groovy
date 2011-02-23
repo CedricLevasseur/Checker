@@ -3,7 +3,7 @@
 public class FileChecked {
     
 	public static FILE_NOT_FOUND_OR_EMPTY = -1;
-    	public static FILE_SIZE_VALID = -3;
+    	public static FILE_SIZE_VALID = -4;
     	public static FILE_SIZE_INVALID = -3;
     	public static FILE_SIZE_EXPECTED_INCORRECT = -2;
 
@@ -60,7 +60,7 @@ public class FileChecked {
 	}	
 			
 	public String toString(){
-		return "errorStatus="+errorStatus;
+		return "errorStatus="+errorStatus+",errorDiff="+errorDiff;
 	}
 
 }
