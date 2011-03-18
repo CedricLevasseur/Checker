@@ -3,6 +3,7 @@ public class FileToCheck{
 	private String url;
 	private double size;
 	private double delta=0.05;
+	private String deltaStr;
 
 	public void setUrl(String _url){
 		url=_url
@@ -30,11 +31,11 @@ public class FileToCheck{
 		if(_deltaStr!=null && _deltaStr.trim().length()>0){
 			char last=_deltaStr.charAt(_deltaStr.length()-1)
 			if(last=='%'){
+				deltaStr=_deltaStr
 				_deltaStr="0."+_deltaStr.substring(0,_deltaStr.length()-2)	
 				double deltaPercent=Double.parseDouble(_deltaStr)
 				//hum, be aware to set size before deltapercent 
 				delta=size*(1-deltaPercent)
-
 			}else{
 				if(last in SizeFormatter.unites){
 					//implement here the delta in size, not percent
@@ -43,6 +44,8 @@ public class FileToCheck{
 					delta=Double.parseDouble(_deltaStr)
 				}
 			}
+			println "--> deltaStr="+deltaStr
+			println "--> delta="+delta
 		}
 	}
 	

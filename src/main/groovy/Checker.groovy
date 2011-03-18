@@ -1,4 +1,4 @@
-/*package checker*/
+///*package checker*/
 
 import org.htmlparser.*
 import org.htmlparser.util.*
@@ -77,7 +77,7 @@ public class Checker{
 	            		System.out.println("Expected File Size is invalid : "+checker.getUrl());
 				break;
 			case FileChecked.FILE_SIZE_INVALID :
-	            		System.out.println("NOT CONFORME : "+checker.getUrl());
+	            		System.out.println("NOT CONFORME : "+checker.getUrl()+" "+fileChecked);
 				break;
 
 			case FileChecked.FILE_SIZE_VALID :
@@ -106,7 +106,7 @@ public class Checker{
 		}
 		if(toReturn.size()==0){
 			f=new File(DEFAULT_CONF_DIR+DEFAULT_CONF_FILE)
-			println f
+			//println f
 			if(f.exists()){
 				toReturn.add(""+DEFAULT_CONF_DIR+DEFAULT_CONF_FILE)
 			}else{
