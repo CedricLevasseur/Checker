@@ -39,15 +39,12 @@ public class FileChecked {
 
 	private int check(double fileLength,double fileLengthExpected){
 		if(fileLengthExpected<1){
-			//println "sortie 1"
 			return FILE_SIZE_EXPECTED_INCORRECT;
 		}
 		if (fileLength <= 0){
-			//println "sortie 2"
 		    return FILE_NOT_FOUND_OR_EMPTY;
 		}
 		if (fileLengthExpected==fileLength){
-			//println "sortie 3"
 			return FILE_SIZE_VALID;	
 			}
 		/* When delta was a percent 
@@ -56,17 +53,15 @@ public class FileChecked {
 		}*/
 		//println fileLengthExpected-fileLength+" "+delta		
 		if((Math.abs(fileLengthExpected-fileLength))<delta){
-			//println "sortie 4"
 			return FILE_SIZE_VALID
 		}
-			//println "sortie 5"
 		return FILE_SIZE_INVALID 	
 
 	}	
 			
 	public String toString(){
 		//return "errorStatus="+errorStatus+",errorDiff="+errorDiff;
-		return "errorDiff="+SizeFormatter.format((long)errorDiff)+ " exceed a delta of "+delta;
+		return "diff="+SizeFormatter.format((long)errorDiff)+ " exceed a delta of "+SizeFormatter.format((long)delta);
 	}
 
 }

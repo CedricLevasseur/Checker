@@ -29,23 +29,29 @@ public class FileToCheck{
 	}
 	public void setDelta(String _deltaStr){
 		if(_deltaStr!=null && _deltaStr.trim().length()>0){
-			char last=_deltaStr.charAt(_deltaStr.length()-1)
+			char last=_deltaStr.trim().charAt(_deltaStr.length()-1)
+			int indexOfLast = _deltaStr.lastIndexOf((String)last)
 			if(last=='%'){
 				deltaStr=_deltaStr
-				_deltaStr="0."+_deltaStr.substring(0,_deltaStr.length()-2)	
-				double deltaPercent=Double.parseDouble(_deltaStr)
+				if(_deltaStr.size()==2){
+					_deltaStr="0.0"+_deltaStr.substring(0,indexOfLast)	
+				}else{
+					_deltaStr="0."+_deltaStr.substring(0,indexOfLast)
+				}
+				//double deltaPercent=Double.parseDouble(_deltaStr)
+				double deltaPercent=new Double(_deltaStr)
 				//hum, be aware to set size before deltapercent 
 				delta=size*(1-deltaPercent)
 			}else{
 				if(last in SizeFormatter.unites){
 					//implement here the delta in size, not percent
-					delta=SizeFormatter.convertToBytes(_deltaStr)
+					//delta=SizeFormatter.convertToBytes(_deltaStr)
 				}else{
-					delta=Double.parseDouble(_deltaStr)
+					delta= new Double (_deltaStr)
 				}
 			}
-			println "--> deltaStr="+deltaStr
-			println "--> delta="+delta
+			// arrondi
+			delta=(int)Math.floor(delta + 0.5f)
 		}
 	}
 	

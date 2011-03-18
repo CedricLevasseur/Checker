@@ -77,14 +77,14 @@ public class Checker{
 	            		System.out.println("Expected File Size is invalid : "+checker.getUrl());
 				break;
 			case FileChecked.FILE_SIZE_INVALID :
-	            		System.out.println("NOT CONFORME : "+checker.getUrl()+" "+fileChecked);
+	            		System.out.println("NOT VALID : "+checker.getUrl()+" "+fileChecked);
 				break;
 
 			case FileChecked.FILE_SIZE_VALID :
-	            		System.out.println("CONFORME : "+checker.getUrl());
+	            		System.out.println("VALID : "+checker.getUrl());
 				break;
 			default :
-				System.out.println("FILE SIZE NOT CONFORME, error=" + fileChecked.getErrorPercent() +"% : "+checker.getUrl() );
+				System.out.println("FILE SIZE NOT VALID, error=" + fileChecked.getErrorPercent() +"% : "+checker.getUrl() );
 		}
     	}
     }
