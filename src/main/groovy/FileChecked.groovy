@@ -32,9 +32,9 @@ public class FileChecked {
  */
 	
 	public FileChecked(double fileLength, double fileLengthExpected , double delta){
+		this.delta=delta
 		errorStatus=check(fileLength,fileLengthExpected);
 		errorDiff=Math.abs(fileLength-fileLengthExpected);
-		this.delta=delta
 	}
 
 	private int check(double fileLength,double fileLengthExpected){
@@ -61,7 +61,10 @@ public class FileChecked {
 			
 	public String toString(){
 		//return "errorStatus="+errorStatus+",errorDiff="+errorDiff;
-		return "diff="+SizeFormatter.format(errorDiff)+ " exceed a delta of "+SizeFormatter.format(delta);
+		if(errorDiff > delta)
+			return "diff="+SizeFormatter.format(errorDiff)+ " exceed a delta of "+SizeFormatter.format(delta);
+		else
+			return "diff="+SizeFormatter.format(errorDiff)+ " conform a delta of "+SizeFormatter.format(delta);
 	}
 
 }
