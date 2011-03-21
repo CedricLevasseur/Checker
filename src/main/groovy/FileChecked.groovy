@@ -61,7 +61,7 @@ public class FileChecked {
 			
 	public String toString(){
 		//return "errorStatus="+errorStatus+",errorDiff="+errorDiff;
-		return "diff="+SizeFormatter.format((long)errorDiff)+ " exceed a delta of "+SizeFormatter.format((long)delta);
+		return "diff="+SizeFormatter.format(errorDiff)+ " exceed a delta of "+SizeFormatter.format(delta);
 	}
 
 }

@@ -5,7 +5,7 @@ public class SizeFormatter{
 
     public static char[] unites=['B','K','M','G','T']
 
-    public static String format(long bytesNumber){
+    public static String format(double bytesNumber){
 
         def iter=0;
         while (bytesNumber >= 1024){
