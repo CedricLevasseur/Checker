@@ -111,7 +111,6 @@ public class Checker{
 				toReturn.add(""+DEFAULT_CONF_DIR+DEFAULT_CONF_FILE)
 			}else{
 				println("No files to check, please provide a checker.conf")
-				System.exit(1);
 			}
 		}
 	}
